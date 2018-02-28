@@ -20,48 +20,71 @@ public class Recipe {
     String prepTime;
     String dietLabel;
 
-    public static ArrayList<Recipe> getRecipiesFromFile(String filename, Context context){
-        ArrayList<Recipe> movieList = new ArrayList<>();
+    public Recipe(String title, String image, String url, String description, int servings, String prepTime, String dietLabel) {
+        this.title = title;
+        this.image = image;
+        this.url = url;
+        this.description = description;
+        this.servings = servings;
+        this.prepTime = prepTime;
+        this.dietLabel = dietLabel;
+    }
 
-        // try to read from JSON file
-        // get information by using the tags
-        // construct a Movie Object for each movie in JSON
-        // add the object to ArrayList
-        // return ArrayList
+    /**
+     * 0: under 30 minutes
+     * 1: 30 minutes - 1 hour
+     * 2: over 1 hour
+     */
+    public int getPrepTime() {
+        String[] split = this.prepTime.split(" ");
+        int firstNum = Integer.parseInt(split[0]);
+
+        // TODO: Find out what category "1 hour" is in
+
+        // first character of second "word" will either be 'h' or 'm'
+        if (split[1].charAt(0) == 'h') {
+            return 2;
+        } else {
+            return firstNum < 30 ? 0 : 1;
+        }
+    }
+
+    public static ArrayList<Recipe> getRecipiesFromFile(String filename, Context context){
+        ArrayList<Recipe> recipeList = new ArrayList<>();
+
         try {
             String jsonString = loadJSONStringFromAsset(filename, context);
             JSONObject json = new JSONObject(jsonString);
             JSONArray recipeJSONArray = json.getJSONArray("recipes");
 
-            // for loop to go through each movie in the movies.json file
             for (int i = 0; i < recipeJSONArray.length(); i++) {
                 JSONObject recipeJSON = recipeJSONArray.getJSONObject(i);
-
-                Recipe movie = new Recipe();
-//                movie.title = movieJSON.getString("title");
-//                movie.episodeNumber = movieJSON.getString("episode_number");
-//
-//                // handle array of characters
-//                JSONArray mainCharactersJSONArray = movieJSON.getJSONArray("main_characters");
-//                String[] mainCharacters = new String[mainCharactersJSONArray.length()];
-//                for (int j = 0; j < mainCharactersJSONArray.length(); j++) {
-//                    mainCharacters[j] = mainCharactersJSONArray.getString(j);
-//                }
-//                movie.mainCharacters = mainCharacters;
-//
-//                movie.description = movieJSON.getString("description");
-//                movie.poster = movieJSON.getString("poster");
-//                movie.url = movieJSON.getString("url");
-
-                // add to ArrayList
-                movieList.add(movie);
+                recipeList.add(Recipe.fromJSON(recipeJSON));
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return movieList;
+        return recipeList;
+    }
+
+    private static Recipe fromJSON(JSONObject json) {
+        try {
+            String title = json.getString("title");
+            String image = json.getString("image");
+            String url = json.getString("url");
+            String description = json.getString("description");
+            int servings = json.getInt("servings");
+            String prepTime = json.getString("prepTime");
+            String dietLabel = json.getString("dietLabel");
+
+            return new Recipe(title, image, url, description, servings, prepTime, dietLabel);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     // helper method that loads from any Json file
