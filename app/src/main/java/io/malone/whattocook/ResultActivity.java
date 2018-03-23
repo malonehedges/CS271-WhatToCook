@@ -13,25 +13,33 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ResultActivity extends AppCompatActivity {
+
+    private List<Recipe> results;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
+        this.results = this.getIntent().getExtras().getParcelableArrayList("results");
+
         TextView resultText = findViewById(R.id.result_count_text);
         ListView resultList = findViewById(R.id.result_list);
 
-        // TODO
-        resultList.setAdapter(new RecipeAdapter(this, null));
+        // TODO use a resource string with placeholder / localization for s's or not
+        resultText.setText(results.size() + "result" + (results.size() == 1 ? "" : "s"));
 
-        this.createNotification();
+        // TODO
+        resultList.setAdapter(new RecipeAdapter(this, this.results));
+
+//        this.createNotification();
     }
 
     private void createNotification() {
-        System.out.println("howdy ho");
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("my_shit", "fun stuff right", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

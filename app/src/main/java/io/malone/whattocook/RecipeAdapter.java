@@ -1,6 +1,7 @@
 package io.malone.whattocook;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +12,20 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecipeAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<Recipe> recipeList;
+    private List<Recipe> recipeList;
 
-    private LayoutInflater mInflater;
+    private LayoutInflater inflater;
 
-    public RecipeAdapter(Context context, ArrayList<Recipe> recipeList) {
+    public RecipeAdapter(Context context, List<Recipe> recipeList) {
         this.context = context;
         this.recipeList = recipeList;
 
-        this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -47,53 +49,46 @@ public class RecipeAdapter extends BaseAdapter {
 
         // check if the view already exists
         if (convertView == null) {
-//            convertView = mInflater.inflate(R.layout.list_item_movie, parent, false);
-//
-//            // add the views to the holder
-//            holder = new ViewHolder();
-//            holder.thumbnailImageView = convertView.findViewById(R.id.movie_list_thumbnail);
-//            holder.titleTextView = convertView.findViewById(R.id.movie_list_title);
-//            holder.descriptionTextView = convertView.findViewById(R.id.movie_list_description);
-//            holder.mainCharactersTextView = convertView.findViewById(R.id.movie_list_main_characters);
-//            holder.hasSeenTextView = convertView.findViewById(R.id.movie_list_has_seen);
+            convertView = this.inflater.inflate(R.layout.list_item_recipe, parent, false);
+
+            // add the views to the holder
+            holder = new ViewHolder();
+            holder.thumbnail = convertView.findViewById(R.id.recipe_list_item_thumbnail);
+            holder.title = convertView.findViewById(R.id.recipe_list_item_title);
+            holder.detailText = convertView.findViewById(R.id.recipe_list_item_detail_text);
+            holder.cookButton = convertView.findViewById(R.id.recipe_list_item_cook_button);
 
             // add the holder to the view
-//            convertView.setTag(holder);
+            convertView.setTag(holder);
         } else {
             // get the view holder from convertView
             holder = (ViewHolder) convertView.getTag();
         }
 
         // get the movie for this row
-        Recipe movie = (Recipe) this.getItem(position);
+        Recipe recipe = (Recipe) getItem(position);
 
         // get relative subview of the row view
-//        ImageView thumbnailImageView = holder.thumbnailImageView;
-//        TextView titleTextView = holder.titleTextView;
-//        TextView descriptionTextView = holder.descriptionTextView;
-//        TextView mainCharactersTextView = holder.mainCharactersTextView;
-//        TextView hasSeenTextView = holder.hasSeenTextView;
+        ImageView thumbnail = holder.thumbnail;
+        TextView title = holder.title;
+        TextView detailText = holder.detailText;
+        ImageView cookButton = holder.cookButton;
 
         // use Picasso library to load image from the image url
-//        Picasso.with(mContext).load(movie.poster).into(thumbnailImageView);
+        Picasso.with(this.context).load(recipe.image).into(thumbnail);
+        System.out.println(recipe.image);
 
-//        titleTextView.setText(movie.title);
-//        descriptionTextView.setText(movie.description);
-//        mainCharactersTextView.setText(movie.getMainCharactersForDisplay());
-//
-//        // Because we can't store hasSeen as a field on the Movie class, store this data separately
-//        String hasSeenStatus = getHasSeenStatus(position);
-//        hasSeenTextView.setText(hasSeenStatus);
-//        hasSeenTextView.setTextColor(getColorForStatus(hasSeenStatus));
+        title.setText(recipe.title);
+        detailText.setText(recipe.servings + " servings");
+        detailText.setTextColor(Color.BLUE);
 
         return convertView;
     }
 
     public static class ViewHolder {
-//        public ImageView thumbnailImageView;
-//        public TextView titleTextView;
-//        public TextView descriptionTextView;
-//        public TextView mainCharactersTextView;
-//        public TextView hasSeenTextView;
+        ImageView thumbnail;
+        TextView title;
+        TextView detailText;
+        ImageView cookButton;
     }
 }

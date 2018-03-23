@@ -1,6 +1,8 @@
 package io.malone.whattocook;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class Recipe {
+public class Recipe implements Parcelable {
 
     String title;
     String image;
@@ -49,7 +51,7 @@ public class Recipe {
         }
     }
 
-    public static ArrayList<Recipe> getRecipiesFromFile(String filename, Context context){
+    public static ArrayList<Recipe> getRecipesFromFile(String filename, Context context){
         ArrayList<Recipe> recipeList = new ArrayList<>();
 
         try {
@@ -105,4 +107,55 @@ public class Recipe {
 
         return json;
     }
+
+    @Override
+    public String toString() {
+        return "Recipe {"
+                + "title: " + this.title
+                + ", servings: " + this.servings
+                + ", prepTime: " + this.prepTime
+                + ", dietLabel: " + this.dietLabel
+                + "}";
+    }
+
+    // Parcelable Methods
+
+    protected Recipe(Parcel in) {
+        title = in.readString();
+        image = in.readString();
+        url = in.readString();
+        description = in.readString();
+        servings = in.readInt();
+        prepTime = in.readString();
+        dietLabel = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(image);
+        dest.writeString(url);
+        dest.writeString(description);
+        dest.writeInt(servings);
+        dest.writeString(prepTime);
+        dest.writeString(dietLabel);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel in) {
+            return new Recipe(in);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 }
