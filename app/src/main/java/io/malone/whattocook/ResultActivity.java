@@ -30,8 +30,13 @@ public class ResultActivity extends AppCompatActivity {
         TextView resultText = findViewById(R.id.result_count_text);
         ListView resultList = findViewById(R.id.result_list);
 
-        // TODO use a resource string with placeholder / localization for s's or not
-        resultText.setText(results.size() + "result" + (results.size() == 1 ? "" : "s"));
+        resultText.setText(
+                getResources().getQuantityString(
+                        R.plurals.results_label,
+                        results.size(),
+                        results.size()
+                )
+        );
 
         // TODO
         resultList.setAdapter(new RecipeAdapter(this, this.results));

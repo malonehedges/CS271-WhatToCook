@@ -5,4 +5,9 @@
     <string name="serving_label">Serving Restriction</string>
     <string name="preparation_label">Preparation Time</string>
     <string name="submit_label">Search</string>
+
+    <plurals name="results_label">
+        <item quantity="one">%d result</item>
+        <item quantity="other">%d results</item>
+    </plurals>
 </resources>
