@@ -74,31 +74,72 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
         ArrayList<Recipe> searchResults = new ArrayList<>();
 
         for (Recipe recipe : recipes) {
-            boolean add = false;
+            // default: add it to the result list
+            // when it doesn't fit a criteria: don't add it
+            boolean add = true;
 
             if (this.dietChoice > 0) {
-                if (recipe.dietLabel.equals(this.dietStrings.get(this.dietChoice))) {
-                    add = true;
+                // Exclude things which don't fit this criteria
+                if (!recipe.dietLabel.equals(this.dietStrings.get(this.dietChoice))) {
+                    add = false;
                 }
             }
 
             if (this.servingChoice > 0) {
+                // Exclude things which don't fit this criteria
+                switch (this.servingChoice) {
+                    // less than 4 servings
+                    case 1:
+                        // if it isn't this, exclude it
+                        if (recipe.servings >= 4) {
+                            add = false;
+                        }
+                        break;
 
+                    // 4 - 6 servings
+                    case 2:
+                        // if it isn't this, exclude it
+                        if (recipe.servings < 4 || recipe.servings > 6) {
+                            add = false;
+                        }
+                        break;
+
+                    // 7 - 9 servings
+                    case 3:
+                        // if it isn't this, exclude it
+                        if (recipe.servings < 7 || recipe.servings > 9) {
+                            add = false;
+                        }
+                        break;
+
+                    // 10 + servings
+                    case 4:
+                        // if it isn't this, exclude it
+                        if (recipe.servings < 10) {
+                            add = false;
+                        }
+                        break;
+                }
             }
 
             if (this.preparationChoice > 0) {
-
+                // Exclude things which don't fit this criteria
+                int prepTime = recipe.getPrepTime();
+                if (this.preparationChoice == 1 && prepTime != Recipe.UNDER_30_MINS) {
+                    add = false;
+                }
+                if (this.preparationChoice == 2 && prepTime == Recipe.OVER_1_HOUR) {
+                    add = false;
+                }
+                if (this.preparationChoice == 3 && prepTime != Recipe.OVER_1_HOUR) {
+                    add = false;
+                }
             }
 
             if (add) {
                 searchResults.add(recipe);
             }
         }
-
-        System.out.println("----------------------------------------");
-        System.out.println(dietChoice);
-        System.out.println(servingChoice);
-        System.out.println(preparationChoice);
 
         // Start the ResultActivity, passing the results
         Intent resultIntent = new Intent(this, ResultActivity.class);
@@ -144,5 +185,6 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {}
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
 }

@@ -14,6 +14,11 @@ import java.util.ArrayList;
 
 public class Recipe implements Parcelable {
 
+    // Referenced below, static variables here for readability
+    public static final int UNDER_30_MINS = 0;
+    public static final int HALF_HOUR_TO_1_HOUR = 1;
+    public static final int OVER_1_HOUR = 2;
+
     String title;
     String image;
     String url;
@@ -41,13 +46,12 @@ public class Recipe implements Parcelable {
         String[] split = this.prepTime.split(" ");
         int firstNum = Integer.parseInt(split[0]);
 
-        // TODO: Find out what category "1 hour" is in
-
         // first character of second "word" will either be 'h' or 'm'
+        // NOTE: 1 hour or longer goes into "over 1 hour"
         if (split[1].charAt(0) == 'h') {
-            return 2;
+            return Recipe.OVER_1_HOUR;
         } else {
-            return firstNum < 30 ? 0 : 1;
+            return firstNum < 30 ? Recipe.UNDER_30_MINS : Recipe.HALF_HOUR_TO_1_HOUR;
         }
     }
 

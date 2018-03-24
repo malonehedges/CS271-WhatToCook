@@ -79,7 +79,7 @@ public class RecipeAdapter extends BaseAdapter {
         System.out.println(recipe.image);
 
         title.setText(recipe.title);
-        detailText.setText(recipe.servings + " servings");
+        detailText.setText(recipe.servings + " servings" + "     " + recipe.prepTime);
         detailText.setTextColor(Color.BLUE);
 
         return convertView;
