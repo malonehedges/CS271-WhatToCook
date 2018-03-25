@@ -10,6 +10,7 @@
     <string name="recipe_detail_placeholder">Recipe Detail</string>
     <string name="notification_channel_name">Cooking Notifications</string>
     <string name="notification_channel_description">Useful notifications regarding cooking</string>
+    <string name="results_text_placeholder">X results</string>
 
     <plurals name="results_label">
         <item quantity="one">%d result</item>
