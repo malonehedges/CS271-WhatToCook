@@ -1,11 +1,19 @@
 package io.malone.whattocook;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -66,21 +74,52 @@ public class RecipeAdapter extends BaseAdapter {
         }
 
         // get the movie for this row
-        Recipe recipe = (Recipe) getItem(position);
+        final Recipe recipe = (Recipe) getItem(position);
 
         // get relative subview of the row view
         ImageView thumbnail = holder.thumbnail;
         TextView title = holder.title;
         TextView detailText = holder.detailText;
-        ImageView cookButton = holder.cookButton;
+        Button cookButton = holder.cookButton;
 
         // use Picasso library to load image from the image url
         Picasso.with(this.context).load(recipe.image).into(thumbnail);
         System.out.println(recipe.image);
 
         title.setText(recipe.title);
-        detailText.setText(recipe.servings + " servings" + "     " + recipe.prepTime);
+
+        String pluralDetailText = parent.getResources().getQuantityString(
+                R.plurals.list_item_detail,
+                recipe.servings,
+                recipe.servings,
+                recipe.prepTime
+        );
+        detailText.setText(pluralDetailText);
         detailText.setTextColor(Color.BLUE);
+
+        cookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // https://developer.android.com/training/notify-user/build-notification.html
+
+                // Create an explicit intent for an Activity in your app
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(recipe.url));
+
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_launcher_foreground)
+                        .setContentTitle("Cooking Instructions")
+                        .setContentText("The instructions for " + recipe.title + " can be found here!")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setContentIntent(pendingIntent)
+                        .setAutoCancel(true);
+
+                // notificationId is a unique int for each notification
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+                notificationManager.notify((int) System.currentTimeMillis(), mBuilder.build());
+            }
+        });
 
         return convertView;
     }
@@ -89,6 +128,6 @@ public class RecipeAdapter extends BaseAdapter {
         ImageView thumbnail;
         TextView title;
         TextView detailText;
-        ImageView cookButton;
+        Button cookButton;
     }
 }

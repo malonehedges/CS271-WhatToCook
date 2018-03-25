@@ -38,9 +38,9 @@ public class Recipe implements Parcelable {
     }
 
     /**
-     * 0: under 30 minutes
-     * 1: 30 minutes - 1 hour
-     * 2: over 1 hour
+     * UNDER_30_MINS (0): under 30 minutes
+     * HALF_HOUR_TO_1_HOUR (1): 30 minutes - 1 hour
+     * OVER_1_HOUR (2): over 1 hour
      */
     public int getPrepTime() {
         String[] split = this.prepTime.split(" ");

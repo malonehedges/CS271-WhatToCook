@@ -38,7 +38,6 @@ public class ResultActivity extends AppCompatActivity {
                 )
         );
 
-        // TODO
         resultList.setAdapter(new RecipeAdapter(this, this.results));
 
 //        this.createNotification();

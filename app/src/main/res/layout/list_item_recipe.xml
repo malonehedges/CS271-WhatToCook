@@ -13,7 +13,7 @@
         android:layout_marginBottom="6dp"
         android:layout_centerVertical="true"
         android:scaleType="fitCenter"
-        android:contentDescription="movie_list_thumbnail_description" />
+        android:contentDescription="@string/picture_of_yummy_food" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -29,10 +29,10 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="3dp"
             android:textSize="20sp"
-            android:text="Fun Title Of A Recipe Here" />
+            android:text="@string/fun_title_of_a_recipe_here" />
 
         <RelativeLayout
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:layout_below="@id/recipe_list_item_title">
 
@@ -44,19 +44,22 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="3dp"
                 android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:maxLines="1"
                 android:textSize="13sp"
-                android:text="3 servings     30 minutes" />
+                android:text="@string/recipe_detail_placeholder" />
 
-            <ImageView
+            <Button
                 android:id="@+id/recipe_list_item_cook_button"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginEnd="6dp"
-                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/rounded_button"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_alignParentEnd="true"
-                android:contentDescription="COOK BUTTON DESCRIPTION HERE" />
-
+                android:text="COOK"
+            />
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>
