@@ -105,12 +105,17 @@ public class RecipeAdapter extends BaseAdapter {
                 // Create an explicit intent for an Activity in your app
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(recipe.url));
-
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+                String contentTitle = "Cooking Instructions";
+                String contentText = "The instructions for " + recipe.title + " can be found here!";
+
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_launcher_foreground)
-                        .setContentTitle("Cooking Instructions")
-                        .setContentText("The instructions for " + recipe.title + " can be found here!")
+                        .setContentTitle(contentTitle)
+                        .setContentText(contentText)
+                        // Use big text style
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(contentText))
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setContentIntent(pendingIntent)
                         .setAutoCancel(true);
