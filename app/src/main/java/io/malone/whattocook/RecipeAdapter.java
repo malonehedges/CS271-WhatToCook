@@ -1,7 +1,5 @@
 package io.malone.whattocook;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +17,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeAdapter extends BaseAdapter {
@@ -64,6 +61,7 @@ public class RecipeAdapter extends BaseAdapter {
             holder.thumbnail = convertView.findViewById(R.id.recipe_list_item_thumbnail);
             holder.title = convertView.findViewById(R.id.recipe_list_item_title);
             holder.detailText = convertView.findViewById(R.id.recipe_list_item_detail_text);
+            holder.foodTypeDetailText = convertView.findViewById(R.id.recipe_list_item_food_type);
             holder.cookButton = convertView.findViewById(R.id.recipe_list_item_cook_button);
 
             // add the holder to the view
@@ -80,11 +78,11 @@ public class RecipeAdapter extends BaseAdapter {
         ImageView thumbnail = holder.thumbnail;
         TextView title = holder.title;
         TextView detailText = holder.detailText;
+        TextView foodTypeDetailText = holder.foodTypeDetailText;
         Button cookButton = holder.cookButton;
 
         // use Picasso library to load image from the image url
         Picasso.with(this.context).load(recipe.image).into(thumbnail);
-        System.out.println(recipe.image);
 
         title.setText(recipe.title);
 
@@ -96,6 +94,9 @@ public class RecipeAdapter extends BaseAdapter {
         );
         detailText.setText(pluralDetailText);
         detailText.setTextColor(Color.BLUE);
+
+        foodTypeDetailText.setText(recipe.dietLabel);
+        foodTypeDetailText.setTextColor(Color.BLUE);
 
         cookButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,5 +135,6 @@ public class RecipeAdapter extends BaseAdapter {
         TextView title;
         TextView detailText;
         Button cookButton;
+        TextView foodTypeDetailText;
     }
 }

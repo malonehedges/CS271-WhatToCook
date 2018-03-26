@@ -49,6 +49,17 @@
                 android:textSize="13sp"
                 android:text="@string/recipe_detail_placeholder" />
 
+            <TextView
+                android:id="@+id/recipe_list_item_food_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="3dp"
+                android:maxLines="1"
+                android:textSize="13sp"
+                android:layout_below="@id/recipe_list_item_detail_text"
+                android:text="@string/recipe_detail_placeholder" />
+
             <Button
                 android:id="@+id/recipe_list_item_cook_button"
                 android:layout_width="wrap_content"
@@ -58,7 +69,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_alignParentEnd="true"
-                android:text="COOK"
+                android:text="@string/cook_button_text"
             />
         </RelativeLayout>
     </RelativeLayout>
